@@ -1,0 +1,139 @@
+#!/usr/bin/env bash
+
+# Depending on the terminal emulator you use (iTerm, Hyper, etc), emoji's
+# with proper width may not be supported. Switch true/false to test! 🚀
+enableEmojiPrompt="true";
+
+prompt_git() {
+	local s='';
+	local branchName='';
+
+	# Check if the current directory is in a Git repository.
+	if [ $(git rev-parse --is-inside-work-tree &>/dev/null; echo "${?}") == '0' ]; then
+
+		# check if the current directory is in .git before running git checks
+		if [ "$(git rev-parse --is-inside-git-dir 2> /dev/null)" == 'false' ]; then
+
+			# Ensure the index is up to date.
+			git update-index --really-refresh -q &>/dev/null;
+
+			# Check for uncommitted changes in the index.
+			if ! $(git diff --quiet --ignore-submodules --cached); then
+        if [[ "$2" = true ]]; then
+          s+='🍄  ';
+        else
+          s+='+';
+        fi;
+			fi;
+
+			# Check for unstaged changes.
+			if ! $(git diff-files --quiet --ignore-submodules --); then
+        if [[ "$2" = true ]]; then
+          s+='💥  ';
+        else
+          s+='!';
+        fi;
+			fi;
+
+			# Check for untracked files.
+			if [ -n "$(git ls-files --others --exclude-standard)" ]; then
+        if [[ "$2" = true ]]; then
+          s+='🔎  ';
+        else
+          s+='?';
+        fi;
+			fi;
+
+			# Check for stashed files.
+			if $(git rev-parse --verify refs/stash &>/dev/null); then
+        if [[ "$2" = true ]]; then
+          s+='👨🏻  ';
+        else
+          s+='$'
+        fi;
+			fi;
+
+		fi;
+
+		# Get the short symbolic ref.
+		# If HEAD isn’t a symbolic ref, get the short SHA for the latest commit
+		# Otherwise, just give up.
+		branchName="$(git symbolic-ref --quiet --short HEAD 2> /dev/null || \
+			git rev-parse --short HEAD 2> /dev/null || \
+			echo '(unknown)')";
+
+		[ -n "${s}" ] && s=" ${s}";
+		echo -e "$(tput setab 4 && tput setaf 2)${1}${branchName}${s} $(tput sgr0 && tput setaf 4)";
+	else
+    echo -e "$(tput sgr0 && tput setaf 2)";
+		return;
+	fi;
+}
+
+tput sgr0; # reset colors
+bold=$(tput bold);
+underlineStart=$(tput smul);
+underlineEnd=$(tput rmul);
+reset=$(tput sgr0);
+black=$(tput setaf 0);
+red=$(tput setaf 1);
+green=$(tput setaf 2);
+yellow=$(tput setaf 3);
+blue=$(tput setaf 4);
+magenta=$(tput setaf 5);
+cyan=$(tput setaf 6);
+white=$(tput setaf 7);
+
+# colored bars
+pmptGray=$(tput setab 8 && tput setaf 7);
+pmptGrayToGreen=$(tput setab 2 && tput setaf 8);
+pmptGreenToBlue=$(tput setab 4 && tput setaf 2);
+pmptGreenTerminate=$(tput sgr0 && tput setaf 2);
+pmptBlueTerminate=$(tput sgr0 && tput setaf 4);
+
+# BEGIN PROMPT STRING
+# Terminal title and prompt
+PS1="\[\033]0;⚡️ \W\007\]"; # working directory base name
+
+if [[ "$enableEmojiPrompt" = true ]]; then
+  # HOST
+  # Change the hostname emoji when connected via SSH
+  if [[ "${SSH_TTY}" ]]; then
+  	host="${pmptGray} 🛰  ";
+  else
+  	host="${pmptGray} 👾  ";
+  fi;
+  PS1+="${host}";
+  PS1+="${pmptGrayToGreen}";
+
+
+  # USER & WORKING DIRECTORY
+  # Change user emoji based on user
+  if [[ "${USER}" == "root" ]]; then
+  	user="🤴 ";
+  else
+    if [[ "${USER}" == "taylorjones" ]]; then
+      user="👨‍💻 ";
+    else
+      user="❓ ";
+    fi;
+  fi;
+  PS1+="${user} \w "; # append full working directory
+
+  # GIT STATUS AND BRANCH
+  PS1+="\$(prompt_git \"\[${white}\]  \" \" \")"; # Git repository details
+
+  # RESET - NEWLINE - PROMPT
+  PS1+="${reset}";
+  PS1+="\n";
+  PS1+=" 👉🏻  ${reset}";
+else
+  PS1+="${pmptGray} ${USER} ${pmptGrayToGreen}\w ";
+  # GIT STATUS AND BRANCH
+  PS1+="\$(prompt_git \"\[${white}\]  \" "enableEmojiPrompt")"; # Git repository details
+  PS1+="${reset}\n ✤ ";
+fi
+export PS1;
+
+PS2="\[${yellow}\]→ \[${reset}\]";
+export PS2;
