@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # Depending on the terminal emulator you use (iTerm, Hyper, etc), emoji's
 # with proper width may not be supported. Switch true/false to test! 🚀

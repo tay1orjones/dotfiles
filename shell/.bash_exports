@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Set default editor to vscode
+export EDITOR="code"
+
+# TODO this isn't the right spot to setup nvm - needs refactored
+# Setup NVM
+export NVM_DIR=~/.nvm
+. $(brew --prefix nvm)/nvm.sh
+nvm use stable
+
+# Ignore duplicate commands in the history
+export HISTCONTROL=ignoredups
+
+# Increase the maximum number of lines contained in the history file
+# (default is 500)
+export HISTFILESIZE=10000
+
+# Increase the maximum number of commands to remember
+# (default is 500)
+export HISTSIZE=10000
+
+# Don't clear the screen after quitting a manual page
+export MANPAGER="less -X"
+
+# Make new shells get the history lines from all previous
+# shells instead of the default "last window closed" history
+export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
