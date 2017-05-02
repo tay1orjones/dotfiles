@@ -15,3 +15,5 @@ alias showdeskicons="defaults write com.apple.finder CreateDesktop -bool true &&
 alias hidedeskicons="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
 # Update/reloat bash_profile
 alias reload="source ~/.bash_profile"
+# Open current directory in finder
+alias finder="open ."
