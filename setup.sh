@@ -43,6 +43,27 @@ execute \
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+print_in_purple "\n • Install fonts\n\n"
+
+# Install fonts into system-wide fonts directory
+cd /Library/Fonts
+
+# replace download links below with real dropbox links before running script
+# curl params preserve the remote filename (-O,-J) and follows any redirects (-L)
+execute \
+        "curl -O -J -L https://www.dropbox.com/s/123abcwontwork/DankMono-Regular.otf?dl=0" \
+        "Download Install Dank Mono Regular"
+
+execute \
+        "curl -O -J -L https://www.dropbox.com/s/123abcwontwork/DankMono-Italic.otf?dl=0" \
+        "Download Install Dank Mono Italic"
+
+# Ensure that the rest of the actions in this file
+# are made relative to this file's path.
+cd "$(dirname "${BASH_SOURCE[0]}")"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 print_in_purple "\n • Restart\n\n"
 
 ask_for_confirmation "Do you want to restart?"
