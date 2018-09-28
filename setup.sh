@@ -20,17 +20,17 @@ mkdir -p "$HOME/dev/ibm"
 print_in_purple "\n • Create symbolic links\n\n"
 # Create the necessary symbolic links between the `.dotfiles` and `HOME`
 # directory.
-ln -fs "./shell/.bash_logout" "$HOME/.bash_logout"
-ln -fs "./shell/.bash_profile" "$HOME/.bash_profile"
-ln -fs "./shell/.bash_prompt" "$HOME/.bash_prompt"
-ln -fs "./shell/.bashrc" "$HOME/.bashrc"
-ln -fs "./shell/.inputrc" "$HOME/.inputrc"
-ln -fs "./shell/.hushlogin" "$HOME/.hushlogin"
+ln -fs "$(pwd)/shell/.bash_logout" "$HOME/.bash_logout"
+ln -fs "$(pwd)/shell/.bash_profile" "$HOME/.bash_profile"
+ln -fs "$(pwd)/shell/.bash_prompt" "$HOME/.bash_prompt"
+ln -fs "$(pwd)/shell/.bashrc" "$HOME/.bashrc"
+ln -fs "$(pwd)/shell/.inputrc" "$HOME/.inputrc"
+ln -fs "$(pwd)/shell/.hushlogin" "$HOME/.hushlogin"
 
-ln -fs "./git/.gitattributes" "$HOME/.gitattributes"
-ln -fs "./git/.gitconfig-ibm" "$HOME/.gitconfig-ibm"
-ln -fs "./git/.gitconfig" "$HOME/.gitconfig"
-ln -fs "./git/.gitignore" "$HOME/.gitignore"
+ln -fs "$(pwd)/git/.gitattributes" "$HOME/.gitattributes"
+ln -fs "$(pwd)/git/.gitconfig-ibm" "$HOME/.gitconfig-ibm"
+ln -fs "$(pwd)/git/.gitconfig" "$HOME/.gitconfig"
+ln -fs "$(pwd)/git/.gitignore" "$HOME/.gitignore"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
