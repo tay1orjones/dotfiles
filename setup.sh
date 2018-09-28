@@ -35,13 +35,15 @@ ln -fs "git/.gitignore" ".gitignore"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 print_in_purple "\n • Install nvm and node\n\n"
-execute \
-        "curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash" \
-        "Install nvm"
+
+printf "\n" | ruby -e "$(curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh)" &> /dev/null
+#  └─ simulate the ENTER keypress
+print_result $? "Install nvm"
 
 execute \
         "nvm install stable" \
         "Install node stable"
+        
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
