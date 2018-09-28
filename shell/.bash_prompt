@@ -1,139 +1,89 @@
-#!/bin/bash
+#
+# Clean and minimalistic Bash prompt
+# Author: Artem Sapegin, sapegin.me
+# 
+# Inspired by: https://github.com/sindresorhus/pure & https://github.com/dreadatour/dotfiles/blob/master/.bash_profile
+#
+# Notes:
+# - $local_username - username you don’t want to see in the prompt - can be defined in ~/.bashlocal : `local_username="admin"`
+# - Colors ($RED, $GREEN) - defined in ../tilde/bash_profile.bash
+#
 
-# Depending on the terminal emulator you use (iTerm, Hyper, etc), emoji's
-# with proper width may not be supported. Switch true/false to test! 🚀
-enableEmojiPrompt="true";
+local_username="taylorjones"
 
-prompt_git() {
-	local s='';
-	local branchName='';
 
-	# Check if the current directory is in a Git repository.
-	if [ $(git rev-parse --is-inside-work-tree &>/dev/null; echo "${?}") == '0' ]; then
+# User color
+case $(id -u) in
+	0) user_color="$RED" ;;  # root
+	*) user_color="$GREEN" ;;
+esac
 
-		# check if the current directory is in .git before running git checks
-		if [ "$(git rev-parse --is-inside-git-dir 2> /dev/null)" == 'false' ]; then
+# Symbols
+prompt_symbol="❯"
+prompt_clean_symbol="☀ "
+prompt_dirty_symbol="☂ "
+prompt_venv_symbol="☁ "
 
-			# Ensure the index is up to date.
-			git update-index --really-refresh -q &>/dev/null;
+function prompt_command() {
+	# Local or SSH session?
+	local remote=
+	[ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ] && remote=1
 
-			# Check for uncommitted changes in the index.
-			if ! $(git diff --quiet --ignore-submodules --cached); then
-        if [[ "$2" = true ]]; then
-          s+='🍄  ';
-        else
-          s+='+';
-        fi;
-			fi;
+	# Git branch name and work tree status (only when we are inside Git working tree)
+	local git_prompt=
+	if [[ "true" = "$(git rev-parse --is-inside-work-tree 2>/dev/null)" ]]; then
+		# Branch name
+		local branch="$(git symbolic-ref HEAD 2>/dev/null)"
+		branch="${branch##refs/heads/}"
 
-			# Check for unstaged changes.
-			if ! $(git diff-files --quiet --ignore-submodules --); then
-        if [[ "$2" = true ]]; then
-          s+='💥  ';
-        else
-          s+='!';
-        fi;
-			fi;
+		# Working tree status (red when dirty)
+		local dirty=
+		# Modified files
+		git diff --no-ext-diff --quiet --exit-code --ignore-submodules 2>/dev/null || dirty=1
+		# Untracked files
+		[ -z "$dirty" ] && test -n "$(git status --porcelain)" && dirty=1
 
-			# Check for untracked files.
-			if [ -n "$(git ls-files --others --exclude-standard)" ]; then
-        if [[ "$2" = true ]]; then
-          s+='🔎  ';
-        else
-          s+='?';
-        fi;
-			fi;
+		# Format Git info
+		if [ -n "$dirty" ]; then
+			git_prompt=" $RED$prompt_dirty_symbol$branch$NOCOLOR"
+		else
+			git_prompt=" $GREEN$prompt_clean_symbol$branch$NOCOLOR"
+		fi
+	fi
 
-			# Check for stashed files.
-			if $(git rev-parse --verify refs/stash &>/dev/null); then
-        if [[ "$2" = true ]]; then
-          s+='👨🏻  ';
-        else
-          s+='$'
-        fi;
-			fi;
+	# Virtualenv
+	local venv_prompt=
+	if [ -n "$VIRTUAL_ENV" ]; then
+	    venv_prompt=" $BLUE$prompt_venv_symbol$(basename $VIRTUAL_ENV)$NOCOLOR"
+	fi
 
-		fi;
+	# Only show username if not default
+	local user_prompt=
+	[ "$USER" != "$local_username" ] && user_prompt="$user_color$USER$NOCOLOR"
 
-		# Get the short symbolic ref.
-		# If HEAD isn’t a symbolic ref, get the short SHA for the latest commit
-		# Otherwise, just give up.
-		branchName="$(git symbolic-ref --quiet --short HEAD 2> /dev/null || \
-			git rev-parse --short HEAD 2> /dev/null || \
-			echo '(unknown)')";
+	# Show hostname inside SSH session
+	local host_prompt=
+	[ -n "$remote" ] && host_prompt="@$YELLOW$HOSTNAME$NOCOLOR"
 
-		[ -n "${s}" ] && s=" ${s}";
-		echo -e "$(tput setab 4 && tput setaf 2)${1}${branchName}${s} $(tput sgr0 && tput setaf 4)";
-	else
-    echo -e "$(tput sgr0 && tput setaf 2)";
-		return;
-	fi;
+	# Show delimiter if user or host visible
+	local login_delimiter=
+	[ -n "$user_prompt" ] || [ -n "$host_prompt" ] && login_delimiter=":"
+
+	# Format prompt
+	first_line="$user_prompt$host_prompt$login_delimiter$WHITE\w$NOCOLOR$git_prompt$venv_prompt"
+	# Text (commands) inside \[...\] does not impact line length calculation which fixes stange bug when looking through the history
+	# $? is a status of last command, should be processed every time prompt prints
+	second_line="\`if [ \$? = 0 ]; then echo \[\$CYAN\]; else echo \[\$RED\]; fi\`\$prompt_symbol\[\$NOCOLOR\] "
+	PS1="\n$first_line\n$second_line"
+
+	# Multiline command
+	PS2="\[$CYAN\]$prompt_symbol\[$NOCOLOR\] "
+
+	# Terminal title
+	local title="$(basename "$PWD")"
+	[ -n "$remote" ] && title="$title \xE2\x80\x94 $HOSTNAME"
+	echo -ne "\033]0;$title"; echo -ne "\007"
 }
 
-tput sgr0; # reset colors
-bold=$(tput bold);
-underlineStart=$(tput smul);
-underlineEnd=$(tput rmul);
-reset=$(tput sgr0);
-black=$(tput setaf 0);
-red=$(tput setaf 1);
-green=$(tput setaf 2);
-yellow=$(tput setaf 3);
-blue=$(tput setaf 4);
-magenta=$(tput setaf 5);
-cyan=$(tput setaf 6);
-white=$(tput setaf 7);
-
-# colored bars
-pmptGray=$(tput setab 8 && tput setaf 7);
-pmptGrayToGreen=$(tput setab 2 && tput setaf 8);
-pmptGreenToBlue=$(tput setab 4 && tput setaf 2);
-pmptGreenTerminate=$(tput sgr0 && tput setaf 2);
-pmptBlueTerminate=$(tput sgr0 && tput setaf 4);
-
-# BEGIN PROMPT STRING
-# Terminal title and prompt
-PS1="\[\033]0;⚡️ \W\007\]"; # working directory base name
-
-if [[ "$enableEmojiPrompt" = true ]]; then
-  # HOST
-  # Change the hostname emoji when connected via SSH
-  if [[ "${SSH_TTY}" ]]; then
-  	host="${pmptGray} 🛰  ";
-  else
-  	host="${pmptGray} 👾  ";
-  fi;
-  PS1+="${host}";
-  PS1+="${pmptGrayToGreen}";
-
-
-  # USER & WORKING DIRECTORY
-  # Change user emoji based on user
-  if [[ "${USER}" == "root" ]]; then
-  	user="🤴 ";
-  else
-    if [[ "${USER}" == "taylorjones" ]]; then
-      user="👨‍💻 ";
-    else
-      user="❓ ";
-    fi;
-  fi;
-  PS1+="${user} \w "; # append full working directory
-
-  # GIT STATUS AND BRANCH
-  PS1+="\$(prompt_git \"\[${white}\]  \" \" \")"; # Git repository details
-
-  # RESET - NEWLINE - PROMPT
-  PS1+="${reset}";
-  PS1+="\n";
-  PS1+=" 👉🏻  ${reset}";
-else
-  PS1+="${pmptGray} ${USER} ${pmptGrayToGreen}\w ";
-  # GIT STATUS AND BRANCH
-  PS1+="\$(prompt_git \"\[${white}\]  \" "enableEmojiPrompt")"; # Git repository details
-  PS1+="${reset}\n ✤ ";
-fi
-export PS1;
-
-PS2="\[${yellow}\]→ \[${reset}\]";
-export PS2;
+# Show awesome prompt only if Git is istalled
+command -v git >/dev/null 2>&1 && PROMPT_COMMAND=prompt_command
