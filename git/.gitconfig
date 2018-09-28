@@ -1,0 +1,5 @@
+[user]
+	name = Taylor Jones
+	email = taylor.jones826@gmail.com
+[includeIf "gitdir:~/dev/ibm/"]
+  path = .gitconfig-ibm

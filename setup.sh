@@ -1,29 +1,61 @@
 #!/bin/bash
 
-declare -r GITHUB_REPOSITORY="tay1orjones/dotfiles"
+# Ensure that the following actions
+# are made relative to this file's path.
+cd "$(dirname "${BASH_SOURCE[0]}")" \
+    && . "utils.sh"
 
-declare -r DOTFILES_ORIGIN="git@github.com:$GITHUB_REPOSITORY.git"
-declare -r DOTFILES_TARBALL_URL="https://github.com/$GITHUB_REPOSITORY/tarball/master"
-declare -r DOTFILES_UTILS_URL="https://raw.githubusercontent.com/$GITHUB_REPOSITORY/master/src/os/utils.sh"
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ask_for_sudo
 
-declare dotfilesDirectory="$HOME/sourcecontrol/dotfiles"
-declare skipQuestions=false
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-link() {
-    # Force create/replace the symlink.
-    ln -fs "${DOTFILES_DIRECTORY}/${1}" "${HOME}/${2}"
-}
+print_in_purple "\n • Create directories\n\n"
+mkdir -p "$HOME"/dev/ibm
+#      └─ make parent directories if needed
 
-printf "Create Symlink"
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+print_in_purple "\n • Create symbolic links\n\n"
 # Create the necessary symbolic links between the `.dotfiles` and `HOME`
-# directory. The `bash_profile` sources other files directly from the
-# `.dotfiles` repository.
-link "shell/.bashrc"       ".bashrc"
-link "shell/.bash_profile" ".bash_profile"
-link "shell/.inputrc"      ".inputrc"
-link "git/.gitattributes"  ".gitattributes"
-link "git/.gitignore"      ".gitignore"
+# directory.
+ln -fs "shell/.bash_logout" ".bash_logout"
+ln -fs "shell/.bash_profile" ".bash_profile"
+ln -fs "shell/.bash_prompt" ".bash_prompt"
+ln -fs "shell/.bashrc" ".bashrc"
+ln -fs "shell/.inputrc" ".inputrc"
+ln -fs "shell/.hushlogin" ".hushlogin"
+
+ln -fs "git/.gitattributes" ".gitattributes"
+ln -fs "git/.gitconfig-ibm" ".gitconfig-ibm"
+ln -fs "git/.gitconfig" ".gitconfig"
+ln -fs "git/.gitignore" ".gitignore"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+print_in_purple "\n • Install nvm and node\n\n"
+execute \
+        "curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash" \
+        "Install nvm"
+
+execute \
+        "nvm install stable" \
+        "Install node stable"
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
+./homebrew.sh
+./install.sh
+./preferences.sh
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+print_in_purple "\n • Restart\n\n"
+
+ask_for_confirmation "Do you want to restart?"
+printf "\n"
+
+if answer_is_yes; then
+    sudo shutdown -r now &> /dev/null
+fi
