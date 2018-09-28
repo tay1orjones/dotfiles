@@ -14,6 +14,7 @@ create_symlinks() {
         "shell/bash_prompt"
         "shell/bashrc"
         "shell/inputrc"
+        "shell/hushlogin"
 
         "git/gitattributes"
         "git/gitconfig-ibm"
