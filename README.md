@@ -10,7 +10,7 @@
 4. run from home directory:
 
 ```bash
-mkdir dev && cd dev && git clone https://github.com/tay1orjones/dotfiles.git && cd dotfiles &&& sh setup.sh
+mkdir dev && cd dev && git clone https://github.com/tay1orjones/dotfiles.git && cd dotfiles && sh setup.sh
 ```
 
 - ask for sudo
