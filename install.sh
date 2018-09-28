@@ -29,8 +29,10 @@ brew_install "VLC" "vlc" "caskroom/cask" "cask"
 brew_install "iStat Menus" "istat-menus" "caskroom/cask" "cask"
 
 print_in_purple "\n   Mac App Store Applications\n"
-mas '1Password', id: 568903335
-mas 'Lungo', id: 1263070803
+
+execute \
+        "mas install 1263070803" \
+        "Install Lungo"
 
 print_in_purple "\n   Cleanup\n\n"
 brew_cleanup
