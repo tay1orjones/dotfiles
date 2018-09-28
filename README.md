@@ -7,7 +7,11 @@
 1. Install/Boot new machine, run through mac setup
 2. run `git --version`. This will trigger a prompt to install xcode command line tools
 3. Install/agree to xcode command line tools
-4. run `mkdir dev && cd dev && git clone https://github.com/tay1orjones/dotfiles.git && sh setup.sh`
+4. run from home directory:
+
+```bash
+mkdir dev && cd dev && git clone https://github.com/tay1orjones/dotfiles.git && cd dotfiles &&& sh setup.sh
+```
 
 - ask for sudo
 - create directories - dev, and dev/work (instead of IBM?)
