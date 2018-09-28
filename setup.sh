@@ -20,17 +20,17 @@ mkdir -p "$HOME/dev/ibm"
 print_in_purple "\n • Create symbolic links\n\n"
 # Create the necessary symbolic links between the `.dotfiles` and `HOME`
 # directory.
-ln -fs "shell/.bash_logout" ".bash_logout"
-ln -fs "shell/.bash_profile" ".bash_profile"
-ln -fs "shell/.bash_prompt" ".bash_prompt"
-ln -fs "shell/.bashrc" ".bashrc"
-ln -fs "shell/.inputrc" ".inputrc"
-ln -fs "shell/.hushlogin" ".hushlogin"
+ln -fs "shell/.bash_logout" "$HOME/.bash_logout"
+ln -fs "shell/.bash_profile" "$HOME/.bash_profile"
+ln -fs "shell/.bash_prompt" "$HOME/.bash_prompt"
+ln -fs "shell/.bashrc" "$HOME/.bashrc"
+ln -fs "shell/.inputrc" "$HOME/.inputrc"
+ln -fs "shell/.hushlogin" "$HOME/.hushlogin"
 
-ln -fs "git/.gitattributes" ".gitattributes"
-ln -fs "git/.gitconfig-ibm" ".gitconfig-ibm"
-ln -fs "git/.gitconfig" ".gitconfig"
-ln -fs "git/.gitignore" ".gitignore"
+ln -fs "git/.gitattributes" "$HOME/.gitattributes"
+ln -fs "git/.gitconfig-ibm" "$HOME/.gitconfig-ibm"
+ln -fs "git/.gitconfig" "$HOME/.gitconfig"
+ln -fs "git/.gitignore" "$HOME/.gitignore"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

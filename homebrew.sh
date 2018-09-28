@@ -60,7 +60,7 @@ opt_out_of_analytics() {
 
 main() {
 
-    print_in_purple "\n   Homebrew\n\n"
+    print_in_purple "\n • Install Homebrew\n"
 
     install_homebrew
     opt_out_of_analytics
