@@ -12,7 +12,7 @@ ask_for_sudo
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 print_in_purple "\n • Create directories\n\n"
-mkdir -p "$HOME"/dev/ibm
+mkdir -p "$HOME/dev/ibm"
 #      └─ make parent directories if needed
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -36,14 +36,17 @@ ln -fs "git/.gitignore" ".gitignore"
 
 print_in_purple "\n • Install nvm and node\n\n"
 
-printf "\n" | ruby -e "$(curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh)" &> /dev/null
-#  └─ simulate the ENTER keypress
-print_result $? "Install nvm"
+execute \
+        "curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash" \
+        "Install nvm"
+
+# Make nvm command available to terminal
+. ~/.nvm/nvm.sh
 
 execute \
         "nvm install stable" \
         "Install node stable"
-        
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
