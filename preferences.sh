@@ -57,6 +57,12 @@ execute "defaults write com.apple.dock tilesize -int 60" \
 execute "defaults write com.apple.dock mru-spaces -bool false" \
     "Do not automatically rearrange spaces based on most recent use"
 
+execute "defaults write com.apple.dock wvous-tr-corner -int 5" \
+    "Set top right hot corner to start screensaver"
+
+execute "defaults write com.apple.dock wvous-br-corner -int 0" \
+    "Set bottom right hot corner to start screensaver"
+
 killall "Dock" &> /dev/null
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
