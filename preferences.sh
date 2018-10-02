@@ -60,8 +60,8 @@ execute "defaults write com.apple.dock mru-spaces -bool false" \
 execute "defaults write com.apple.dock wvous-tr-corner -int 5" \
     "Set top right hot corner to start screensaver"
 
-execute "defaults write com.apple.dock wvous-br-corner -int 0" \
-    "Set bottom right hot corner to start screensaver"
+execute "defaults write com.apple.dock wvous-br-corner -int 10" \
+    "Set bottom right hot corner to start sleep"
 
 killall "Dock" &> /dev/null
 
