@@ -21,6 +21,8 @@ create_symlinks() {
         "git/gitconfig"
         "git/gitignore"
 
+        "config/nvmrc"
+
     )
 
     local i=""
