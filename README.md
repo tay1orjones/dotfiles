@@ -14,7 +14,11 @@
 mkdir dev && cd dev && git clone https://github.com/tay1orjones/dotfiles.git && cd dotfiles && sh setup.sh
 ```
 
-## Acknowledgements
+## post set up
+
+1. Configure night shift (I've not found a way to automatically configure)
+
+## acknowledgements
 
 Inspiration and code was taken from many sources, including:
 
