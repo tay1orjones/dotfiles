@@ -19,8 +19,20 @@ execute "defaults write -g AppleShowScrollBars -string 'Always'" \
 
 execute "defaults write -g _HIHideMenuBar -bool true" \
     "Automatically hide and show the menu bar"
-    
+
 # killall to make settings take effect will be captured by the rest of the groups below
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+print_in_purple "\n   Keyboard\n\n"
+
+execute "defaults write -g 'InitialKeyRepeat_Level_Saved' -int 10" \
+    "Set delay until repeat"
+
+execute "defaults write -g KeyRepeat -int 1" \
+    "Set the key repeat rate to fast"
+
+# settings will take effect post restart
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
