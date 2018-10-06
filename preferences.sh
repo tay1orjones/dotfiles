@@ -9,6 +9,21 @@ print_in_purple "\n • Preferences\n"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+print_in_purple "\n   General Settings\n\n"
+
+execute "defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName Flurry path /System/Library/Screen\ Savers/Flurry.saver/ type 0" \
+    "Set screensaver to 'Flurry'"
+
+execute "defaults write -g AppleShowScrollBars -string 'Always'" \
+    "Always show scrollbars"
+
+execute "defaults write -g _HIHideMenuBar -bool true" \
+    "Automatically hide and show the menu bar"
+    
+# killall to make settings take effect will be captured by the rest of the groups below
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 print_in_purple "\n   App Store\n\n"
 
 execute "defaults write com.apple.appstore ShowDebugMenu -bool true" \
