@@ -79,7 +79,13 @@ execute "defaults write com.apple.dock autohide-delay -float 0" \
     "Disable the hide Dock delay"
 
 execute "defaults write com.apple.dock tilesize -int 60" \
-    "Set icon size"
+    "Set dock icon size"
+
+execute "defaults delete com.apple.dock persistent-apps" \
+    "Clear default persistent apps from Dock"
+
+execute "defaults delete com.apple.dock persistent-others" \
+    "Clear other persistent apps from Dock"
 
 execute "defaults write com.apple.dock mru-spaces -bool false" \
     "Do not automatically rearrange spaces based on most recent use"

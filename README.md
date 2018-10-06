@@ -17,6 +17,9 @@ mkdir dev && cd dev && git clone https://github.com/tay1orjones/dotfiles.git && 
 ## post set up
 
 1. Configure night shift (I've not found a way to automatically configure)
+2. Add Dropbox folder to dock (best to do this once logged into dropbox and it's began syncing)
+
+       defaults write com.apple.dock persistent-others -array-add '<dict><key>tile-data</key><dict><key>arrangement</key><integer>1</integer><key>displayas</key><integer>1</integer><key>file-label</key><string>Dropbox</string><key>file-type</key><integer>2</integer><key>preferreditemsize</key><string>-1</string><key>showas</key><integer>2</integer><key>file-data</key><dict><key>_CFURLString</key><string>file:///Users/taylorjones/Dropbox/</string><key>_CFURLStringType</key><integer>15</integer></dict></dict><key>tile-type</key><string>directory-tile</string></dict>' 
 
 ## acknowledgements
 
