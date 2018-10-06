@@ -45,7 +45,7 @@ export NVM_DIR="$HOME/.nvm"
 
 # Make new shells by default use the version of node 
 # declared in the current directory where the shell was opened.
-nvm use
+nvm use &> /dev/null
 
 # bash completion config
 [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
