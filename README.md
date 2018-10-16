@@ -7,11 +7,17 @@
 1. Install/Boot new machine, run through mac setup
 2. run `git --version`. This will trigger a prompt to install xcode command line tools
 3. Install/agree to xcode command line tools
-4. Replace links to private fonts in [./setup.sh](/setup.sh) with live URLs from dropbox.com
-5. run from home directory:
+4. Create dev directory and clone this repo:
 
 ```bash
-mkdir dev && cd dev && git clone https://github.com/tay1orjones/dotfiles.git && cd dotfiles && sh setup.sh
+mkdir dev && cd dev && git clone https://github.com/tay1orjones/dotfiles.git && cd dotfiles
+```
+
+5. Replace links to private fonts in [./setup.sh](/setup.sh) with live URLs from dropbox.com
+6. Run from home directory:
+
+```bash
+ sh setup.sh
 ```
 
 ## post set up

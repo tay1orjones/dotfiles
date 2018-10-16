@@ -45,8 +45,8 @@ create_symlinks() {
         if [ ! -e "$targetFile" ] || $skipQuestions; then
 
             execute \
-                "ln -fs $sourceFile $targetFile" \
-                "$targetFile → $sourceFile"
+                    "ln -fs $sourceFile $targetFile" \
+                    "$targetFile → $sourceFile"
 
         elif [ "$(readlink "$targetFile")" == "$sourceFile" ]; then
             print_success "$targetFile → $sourceFile"
@@ -60,8 +60,8 @@ create_symlinks() {
                     rm -rf "$targetFile"
 
                     execute \
-                        "ln -fs $sourceFile $targetFile" \
-                        "$targetFile → $sourceFile"
+                            "ln -fs $sourceFile $targetFile" \
+                            "$targetFile → $sourceFile"
 
                 else
                     print_error "$targetFile → $sourceFile"
