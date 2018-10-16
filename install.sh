@@ -11,6 +11,7 @@ print_in_purple "\n • Installs\n\n"
 
 print_in_purple "\n   Homebrew Packages\n"
 brew_install "Git" "git"
+brew_install "Bash Completion" "bash-completion"
 brew_install "Yarn" "yarn" "" "" "--without-node"
 brew_install "Mac App Store command line interface" "mas"
 
