@@ -96,6 +96,9 @@ execute "defaults write com.apple.dock wvous-tr-corner -int 5" \
 execute "defaults write com.apple.dock wvous-br-corner -int 10" \
     "Set bottom right hot corner to start sleep"
 
+execute "defaults write com.apple.dock show-recents -bool false" \
+    "Disable show recent applications in Dock"
+
 killall "Dock" &> /dev/null
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
