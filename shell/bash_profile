@@ -17,6 +17,9 @@ alias reload="source ~/.bash_profile"
 alias finder="open ."
 # put computer to sleep
 alias screensleep="pmset sleepnow"
+# command used to bring iTerm to the forefront after long running tasks. For example, `yarn build ; remind`
+alias remind="osascript -e 'tell application \"iTerm2\"' -e 'activate' -e 'display alert \"Done!\"' -e 'end tell'"
+alias remindme="osascript -e 'tell application \"iTerm2\"' -e 'activate' -e 'display alert \"Done!\"' -e 'end tell'"
 
 ##### TODO bash_autocomplete
 
@@ -59,6 +62,21 @@ weather() {
     fi
 
     eval "curl http://wttr.in/${city}"
+}
+
+on() {
+    eval "curl --silent --insecure --request PUT --data '{\"on\":true,\"bri\":254,\"hue\":39392,\"sat\":13,\"ct\":230}' https://192.168.2.44/api/NRyWFZ7E5A-weAiCl98FTL2OERdKQHdcdipYUisW/lights/24/state > /dev/null"
+    eval "curl --silent --insecure --request PUT --data '{\"on\":true,\"bri\":254,\"hue\":39392,\"sat\":13,\"ct\":230}' https://192.168.2.44/api/NRyWFZ7E5A-weAiCl98FTL2OERdKQHdcdipYUisW/lights/20/state > /dev/null"
+    eval "curl --silent --insecure --request PUT --data '{\"on\":true,\"bri\":254,\"hue\":39392,\"sat\":13,\"ct\":230}' https://192.168.2.44/api/NRyWFZ7E5A-weAiCl98FTL2OERdKQHdcdipYUisW/lights/19/state > /dev/null"
+    echo 🎉
+}
+
+off() {
+    echo 👋
+    eval "curl --silent --insecure --request PUT --data '{\"on\":false,\"bri\":254,\"hue\":39392,\"sat\":13,\"ct\":230}' https://192.168.2.44/api/NRyWFZ7E5A-weAiCl98FTL2OERdKQHdcdipYUisW/lights/24/state > /dev/null"
+    eval "curl --silent --insecure --request PUT --data '{\"on\":false,\"bri\":254,\"hue\":39392,\"sat\":13,\"ct\":230}' https://192.168.2.44/api/NRyWFZ7E5A-weAiCl98FTL2OERdKQHdcdipYUisW/lights/20/state > /dev/null"
+    eval "curl --silent --insecure --request PUT --data '{\"on\":false,\"bri\":254,\"hue\":39392,\"sat\":13,\"ct\":230}' https://192.168.2.44/api/NRyWFZ7E5A-weAiCl98FTL2OERdKQHdcdipYUisW/lights/19/state > /dev/null"
+    eval "pmset sleepnow"
 }
 
 ##### bash options
