@@ -64,18 +64,53 @@ weather() {
     eval "curl http://wttr.in/${city}"
 }
 
+waning() {
+    echo -ne '🌕\r'
+    sleep .1
+    echo -ne '🌖\r'
+    sleep .1
+    echo -ne '🌗\r'
+    sleep .1
+    echo -ne '🌘\r'
+    sleep .1
+    echo -ne '🌑\r'
+}
+
+waxing() {
+    echo -ne '🌑\r'
+    sleep .1
+    echo -ne '🌒\r'
+    sleep .1
+    echo -ne '🌓\r'
+    sleep .1
+    echo -ne '🌔\r'
+    sleep .1
+    echo -ne '🌕\r'
+}
+
 on() {
+    # monitor backlight
     eval "curl --silent --insecure --request PUT --data '{\"on\":true,\"bri\":254,\"hue\":39392,\"sat\":13,\"ct\":230}' https://192.168.2.44/api/NRyWFZ7E5A-weAiCl98FTL2OERdKQHdcdipYUisW/lights/24/state > /dev/null"
-    eval "curl --silent --insecure --request PUT --data '{\"on\":true,\"bri\":254,\"hue\":39392,\"sat\":13,\"ct\":230}' https://192.168.2.44/api/NRyWFZ7E5A-weAiCl98FTL2OERdKQHdcdipYUisW/lights/20/state > /dev/null"
+    # desk
     eval "curl --silent --insecure --request PUT --data '{\"on\":true,\"bri\":254,\"hue\":39392,\"sat\":13,\"ct\":230}' https://192.168.2.44/api/NRyWFZ7E5A-weAiCl98FTL2OERdKQHdcdipYUisW/lights/19/state > /dev/null"
-    echo 🎉
+    # floor lamp
+    eval "curl --silent --insecure --request PUT --data '{\"on\":true,\"bri\":254,\"hue\":39392,\"sat\":13,\"ct\":230}' https://192.168.2.44/api/NRyWFZ7E5A-weAiCl98FTL2OERdKQHdcdipYUisW/lights/20/state > /dev/null"
+    eval "waxing"
 }
 
 off() {
-    echo 👋
+    # monitor backlight
     eval "curl --silent --insecure --request PUT --data '{\"on\":false,\"bri\":254,\"hue\":39392,\"sat\":13,\"ct\":230}' https://192.168.2.44/api/NRyWFZ7E5A-weAiCl98FTL2OERdKQHdcdipYUisW/lights/24/state > /dev/null"
-    eval "curl --silent --insecure --request PUT --data '{\"on\":false,\"bri\":254,\"hue\":39392,\"sat\":13,\"ct\":230}' https://192.168.2.44/api/NRyWFZ7E5A-weAiCl98FTL2OERdKQHdcdipYUisW/lights/20/state > /dev/null"
+    # desk
     eval "curl --silent --insecure --request PUT --data '{\"on\":false,\"bri\":254,\"hue\":39392,\"sat\":13,\"ct\":230}' https://192.168.2.44/api/NRyWFZ7E5A-weAiCl98FTL2OERdKQHdcdipYUisW/lights/19/state > /dev/null"
+    # floor lamp
+    eval "curl --silent --insecure --request PUT --data '{\"on\":false,\"bri\":254,\"hue\":39392,\"sat\":13,\"ct\":230}' https://192.168.2.44/api/NRyWFZ7E5A-weAiCl98FTL2OERdKQHdcdipYUisW/lights/20/state > /dev/null"
+    eval "waning"
+}
+
+bye() {
+    eval "off"
+    echo 👋
     eval "pmset sleepnow"
 }
 
